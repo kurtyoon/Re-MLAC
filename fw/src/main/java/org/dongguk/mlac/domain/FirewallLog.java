@@ -5,7 +5,8 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.dongguk.mlac.dto.type.EAttackType;
+import org.dongguk.mlac.dto.type.ELogStatus;
+import org.dongguk.mlac.dto.type.EOrganizer;
 
 import java.time.LocalDateTime;
 
@@ -19,24 +20,29 @@ public class FirewallLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ip")
+    @Column(name = "ip", nullable = false, updatable = false)
     private String ip;
 
-    @Column(name = "port")
-    private String port;
-
-    @Column(name = "attack_type")
+    @Column(name = "status", nullable = false, updatable = false)
     @Enumerated(EnumType.STRING)
-    private EAttackType attackType;
+    private ELogStatus status;
 
-    @Column(name = "attacked_at", nullable = false)
-    private LocalDateTime attackedAt;
+    @Column(name = "organizer", nullable = false, updatable = false)
+    @Enumerated(EnumType.STRING)
+    private EOrganizer organizer;
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Builder
-    public FirewallLog(String ip, String port, LocalDateTime attackedAt, EAttackType attackType) {
+    public FirewallLog(
+            String ip,
+            ELogStatus status,
+            EOrganizer organizer
+    ) {
         this.ip = ip;
-        this.port = port;
-        this.attackedAt = attackedAt;
-        this.attackType = attackType;
+        this.status = status;
+        this.organizer = organizer;
+        this.createdAt = LocalDateTime.now();
     }
 }
