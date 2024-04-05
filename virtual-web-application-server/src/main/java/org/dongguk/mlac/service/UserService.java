@@ -20,13 +20,17 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final ApplicationEventPublisher applicationEventPublisher;
-
+    /**
+     * @description UserState를 업데이트 해주는 함수
+     * @param requestDto
+     */
     @Transactional
     public void updateUserState(UserStateRequestDto requestDto){
         EOrganizer organizer = EOrganizer.fromEAttack(requestDto.attackType());
         String username = (String) requestDto.body().get("username");
         Boolean isBlocked = (Boolean) requestDto.body().get("is_blocked");
 
+        // username이 없거나, WebApplicationServer에 해당하지 않거나, isBlocked 없으면 return
         if (!correspondedWebApplicationServer(organizer, username, isBlocked)) {
             return;
         }
@@ -50,6 +54,7 @@ public class UserService {
 
         user.updateBlock(isBlocked);
 
+        // Event 전파
         applicationEventPublisher.publishEvent(UpdateUserStateEvent.builder()
                 .username(user.getUsername())
                 .area(user.getArea())

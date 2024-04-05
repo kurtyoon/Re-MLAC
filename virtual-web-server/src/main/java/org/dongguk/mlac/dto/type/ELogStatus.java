@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ELogStatus {
     CREATE("CREATE"),
-    UPDATE("UPDATE"),
-    DELETE("DELETE"),
-
-    ;
+    NULL("NULL");
 
     private final String value;
 }
