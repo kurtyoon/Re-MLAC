@@ -29,6 +29,6 @@ public enum EOrganizer {
         return Arrays.stream(EOrganizer.values())
                 .filter(organizer -> organizer.getValue().equals(attack.toString()))
                 .findFirst()
-                .orElse(EOrganizer.OBSERVING_SYSTEM);
+                .orElse(null);
     }
 }
